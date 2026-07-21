@@ -1,3 +1,5 @@
+## 1. Chat Completions
+
 ```
 POST /v1/chat/completions
 Content-Type: application/json
@@ -238,7 +240,6 @@ client = OpenAI(
 
 # Non-streaming
 response = client.chat.completions.create(
-    model="any",  # model is injected server-side, this value is ignored
     messages=[
         {"role": "system", "content": "You are a helpful assistant."},
         {"role": "user", "content": "Explain quantum computing in simple terms."}
@@ -249,7 +250,6 @@ print(response.choices[0].message.content)
 
 # Streaming
 stream = client.chat.completions.create(
-    model="any",
     messages=[{"role": "user", "content": "Tell me a story."}],
     stream=True
 )
@@ -274,7 +274,6 @@ client = AsyncOpenAI(
 async def main():
     # Non-streaming
     response = await client.chat.completions.create(
-        model="any",
         messages=[{"role": "user", "content": "Explain quantum computing in simple terms."}],
         temperature=0.7
     )
@@ -282,7 +281,6 @@ async def main():
 
     # Streaming
     stream = await client.chat.completions.create(
-        model="any",
         messages=[{"role": "user", "content": "Tell me a story."}],
         stream=True
     )
@@ -293,31 +291,3 @@ async def main():
 if __name__ == "__main__":
     asyncio.run(main())
 ```
-
-### Response Structure
-
-```json
-{
-  "id": "chatcmpl-abc123",
-  "object": "chat.completion",
-  "created": 1783944215,
-  "model": "unsloth/gemma-4-E4B-it-GGUF:UD-Q8_K_XL",
-  "choices": [
-    {
-      "index": 0,
-      "message": {
-        "role": "assistant",
-        "content": "The capital of Saudi Arabia is Riyadh."
-      },
-      "finish_reason": "stop"
-    }
-  ],
-  "usage": {
-    "prompt_tokens": 29,
-    "completion_tokens": 12,
-    "total_tokens": 41
-  }
-}
-```
-
----
